@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rhythm Match</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game">
+    <h1>Rhythm Match</h1>
+    <p class="subtitle">Listen to the rhythm, then repeat it.</p>
+
+    <div class="scoreboard">
+      <div>
+        <span>Round</span>
+        <strong id="round">1</strong>
+      </div>
+      <div>
+        <span>Score</span>
+        <strong id="score">0</strong>
+      </div>
+    </div>
+
+    <div id="beatDisplay" class="beat-display">
+      <div id="beatCircle" class="beat-circle"></div>
+      <p id="status">Press Start</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-track"></div>
+      <div id="beatMarkers" class="beat-markers"></div>
+      <div id="playhead" class="playhead"></div>
+    </div>
+
+    <div id="controls" class="controls">
+      <button id="actionButton" class="action-button" tabindex="-1">
+        Start Game
+      </button>
+
+      <button id="nextRoundButton" class="action-button hidden">
+        Next Round
+      </button>
+
+      <p class="instruction">
+        Use <kbd>SPACE</kbd> to play the rhythm.
+      </p>
+    </div>
+
+    <div id="result" class="result"></div>
+
+    <table id="scoreTable" class="score-table">
+      <thead>
+        <tr>
+          <th>Round</th>
+          <th>Missed</th>
+          <th>Good</th>
+          <th>Perfect</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="scoreTableBody"></tbody>
+    </table>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
