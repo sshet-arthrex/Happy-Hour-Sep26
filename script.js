@@ -17,6 +17,43 @@ const scoreTableBody = document.getElementById("scoreTableBody");
 // Game configuration
 // ------------------------------------------------------------
 
+const sequencesListHC = [
+
+  // Easy Difficulty
+  "1000 1000 1000 1000",
+  "1000 1000 1010 1000",
+  "1000 1010 1000 1010",
+  "1010 1000 1010 1000",
+  "1010 0100 1010 0100",
+  "1010 1010 1000 1000",
+  "101010 0010101010",
+  "10010010 10010010",
+  
+  // Medium Difficulty
+  
+  "1010 0110 1010 0110",
+  "1001 1010 1001 1010",
+  "1011 0101 0110 1000",
+  "1101 0100 1101 0100",
+  "11011010 1101101",
+  "110 110 110 1010",
+  "110 110 10 1010 1010",
+  "1010 1110 1010 1110",
+  
+  // Hard Difficulty
+  "1011 1011 1011 1010",
+  "1100 1100 1100 1100",
+  "1100 1000 1100 1000",
+  "1000 1100 1010 1100",
+  "1001 0100 1100 1010",
+  "1000 1010 1100 1010",
+  "1001 1001 0101 1000",
+  "1000 0000 1000 0000 1000",
+  "1000 0000 0000 0000 1000",
+
+];
+
+
 const CONFIG = {
   startingBeats: 4,
   beatDuration: 450,
@@ -27,7 +64,7 @@ const CONFIG = {
   // (smaller gaps) demand tighter timing than slower ones.
   perfectToleranceRatio: 0.35,
   timingToleranceRatio: 0.75,
-  roundsToWin: 10
+  roundsToWin: sequencesListHC.length,
 };
 
 // Point value awarded per beat, keyed by its scored rating.
@@ -207,33 +244,28 @@ function stopPlayhead() {
 }
 
 // ------------------------------------------------------------
-// Generate a random rhythm
+// Generate a rhythm from a beat squence
 // ------------------------------------------------------------
 
-// Each entry is a beat pattern: positions expressed as multiples of a
-// shared interval that gets picked per round.
-const sequencesListHC = [
-  "1000 1000 1000 1000",
-  "1000 1000 1010 1000",
-  "1000 1010 1000 1010",
-  "1010 1000 1010 1000",
-  "1010 0100 1010 0100",
-  "1010 1010 1000 1000",
-
-  // [1, 5, 9, 13],
-  // [1, 5, 9, 11, 13],
-  // [1, 5, 7, 9, 13, 15],
-];
+function decode_key(key) {
+  const tokenList = key.split("s");
+  const bitstrings = tokenList.map((token) => {
+    const [lt, div] = token.split("_");
+    return parseInt(div, 16).toString(2).padStart(Number(lt), "0");
+  });
+  return bitstrings.join(" ");
+}
 
 function generateRhythm() {
   const regex = '1'
   const pattern = sequencesListHC[round-1];
+  // const pattern = decode_key(rhythm_key);
   const pattern_stripped = pattern.replaceAll(' ', '');
   const indices = Array.from(pattern_stripped.matchAll(regex), match => match.index);
 
   // Pick one base interval for the whole sequence; every hardcoded position
   // is a whole number multiple of it, so the rhythm feels musically consistent.
-  const interval = 200;
+  const interval = 225;
 
   rhythmInterval = interval;
 
@@ -443,7 +475,7 @@ function finishPlayerTurn() {
 
   addScoreRow(round, missed, good, perfect, tally);
   
-  score++;
+  score = score + tally;
     
   updateScoreboard();
     
